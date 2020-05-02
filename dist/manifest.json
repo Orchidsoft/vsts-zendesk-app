@@ -1,7 +1,7 @@
 {
   "author": {
-    "name": "Microsoft",
-    "email": "vsointegration@microsoft.com"
+    "name": "Oak Engage",
+    "email": "david.ferguson@oak.com"
   },
   "location": {
     "support": {
@@ -12,7 +12,7 @@
   "singleInstall": true,
   "private": true,
   "frameworkVersion": "2.0",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "parameters": [
     {
       "name": "vso_account",

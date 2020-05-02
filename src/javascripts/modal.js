@@ -134,7 +134,7 @@ var INSTALLATION_ID = 0,
     }),
     VSO_ZENDESK_LINK_TO_TICKET_PREFIX = "ZendeskLinkTo_Ticket_",
     VSO_ZENDESK_LINK_TO_TICKET_ATTACHMENT_PREFIX = "ZendeskLinkTo_Attachment_Ticket_",
-    VSO_WI_TYPES_WHITE_LISTS = ["Bug", "Product Backlog Item", "User Story", "Requirement", "Issue"],
+    VSO_WI_TYPES_WHITE_LISTS = ["Support Ticket"],
     VSO_PROJECTS_PAGE_SIZE = 100; //#endregion
 
 // Create a new ZAFClient
@@ -328,7 +328,7 @@ const ModalApp = BaseApp.extend({
         this.fillComboWithProjects(projectCombo);
         $modal.find(".inputVsoProject").on("change", this.onNewVsoProjectChange.bind(this));
         $modal.find(".copyDescription").on("click", () => {
-            $modal.find(".description").val(getVm("temp[ticket]").description);
+            $modal.find(".clientDescription").val(getVm("temp[ticket]").description);
         });
         $modal.find(".accept").on("click", () => {
             this.onNewWorkItemAcceptClick();
@@ -602,6 +602,7 @@ const ModalApp = BaseApp.extend({
 
     onNewWorkItemAcceptClick: async function() {
         const ticket = getVm("temp[ticket]");
+        console.log(ticket);
 
         const $modal = this.$("[data-main]");
 
@@ -625,10 +626,15 @@ const ModalApp = BaseApp.extend({
             return this.showErrorInModal($modal, this.I18n.t("modals.new.errSummaryRequired"));
         }
 
+        const clientDescription = $modal.find(".clientDescription").val();
         const description = $modal.find(".description").val();
+        const repoSteps = $modal.find(".repoSteps").val();
+        const tenantID = $modal.find(".tenantID").val();
+        const errorCodes = $modal.find(".errorCodes").val();
         let operations = [].concat(
             this.buildPatchToAddWorkItemField("System.Title", summary),
             this.buildPatchToAddWorkItemField("System.Description", description),
+            this.buildPatchToAddWorkItemField("orchidsoft.Oak.TicketIds", ticket.id)
         );
 
         if (areaId) {
@@ -639,9 +645,34 @@ const ModalApp = BaseApp.extend({
             operations.push(this.buildPatchToAddWorkItemField("Microsoft.VSTS.Common.Severity", $modal.find(".severity").val()));
         }
 
-        if (this.hasFieldDefined(workItemType, "Microsoft.VSTS.TCM.ReproSteps")) {
-            operations.push(this.buildPatchToAddWorkItemField("Microsoft.VSTS.TCM.ReproSteps", description));
+        
+        if (this.hasFieldDefined(workItemType, "Microsoft.VSTS.Common.Priority") && $modal.find(".priority").val()) {
+            operations.push(this.buildPatchToAddWorkItemField("Microsoft.VSTS.Common.Priority", $modal.find(".priority").val()));
+        }
+        
+        if (this.hasFieldDefined(workItemType, "Custom.TicketCategory") && $modal.find(".category").val()) {
+            operations.push(this.buildPatchToAddWorkItemField("Custom.TicketCategory", $modal.find(".category").val()));
+        }
+
+        if (this.hasFieldDefined(workItemType, "Custom.Region") && $modal.find(".region").val()) {
+            operations.push(this.buildPatchToAddWorkItemField("Custom.Region", $modal.find(".region").val()));
+        }
+
+        if (this.hasFieldDefined(workItemType, "Custom.InitialClientDescription")) {
+            operations.push(this.buildPatchToAddWorkItemField("Custom.InitialClientDescription", clientDescription));
         } 
+
+        if (this.hasFieldDefined(workItemType, "Microsoft.VSTS.TCM.ReproSteps")) {
+            operations.push(this.buildPatchToAddWorkItemField("Microsoft.VSTS.TCM.ReproSteps", repoSteps));
+        }
+
+        if (this.hasFieldDefined(workItemType, "Custom.TenantID")) {
+            operations.push(this.buildPatchToAddWorkItemField("Custom.TenantID", tenantID));
+        }
+
+        if (this.hasFieldDefined(workItemType, "Custom.ErrorCodes")) {
+            operations.push(this.buildPatchToAddWorkItemField("Custom.ErrorCodes", errorCodes));
+        }
         
         //Set tag
         if (this.setting("vso_tag")) {

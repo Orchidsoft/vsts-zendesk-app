@@ -33,9 +33,53 @@
                 <select id='severity' class='severity input-xlarge'>
                     <option value='1 - Critical'>1 - Critical</option>
                     <option value='2 - High'>2 - High</option>
-                    <option value='3 - Medium'>3 - Medium</option>
+                    <option value='3 - Medium' selected>3 - Medium</option>
                     <option value='4 - Low'>4 - Low</option>
                 </select>
+            </div>
+        </div>
+
+        <div class='control-group severityInput'>
+            <label class='control-label' for='priority'>{{t "modals.new.fields.priority"}}</label>
+            <div class='controls'>
+                <select id='priority' class='priority input-xlarge'>
+                    <option value='1'>1</option>
+                    <option value='2' selected>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                </select>
+            </div>
+        </div>
+
+        <div class='control-group categoryInput'>
+            <label class='control-label' for='category'>{{t "modals.new.fields.category"}}</label>
+            <div class='controls'>
+                <select id='category' class='category input-xlarge'>
+                    <option value='Bug'>Bug</option>
+                    <option value='Data Request'>Data Request</option>
+                    <option value='Information Request'>Information Request</option>
+                    <option value='Performance'>Performance</option>
+                    <option value='Question' selected>Question</option>
+                </select>
+            </div>
+        </div>
+
+        <div class='control-group regionInput'>
+            <label class='control-label' for='region'>{{t "modals.new.fields.region"}}</label>
+            <div class='controls'>
+                <select id='region' class='region input-xlarge'>
+                    <option value='AU1'>AU1</option>
+                    <option value='EU1' selected>EU1</option>
+                    <option value='UK1'>UK1</option>
+                    <option value='US1'>US1</option>
+                </select>
+            </div>
+        </div>
+
+        <div class='control-group'>
+            <label class='control-label' for='tenantID'>{{t "modals.new.fields.tenantID"}}</label>
+            <div class='controls'>
+                <input type='text' id='tenantID' class='tenantID' input-xxlarge'>
             </div>
         </div>
 
@@ -47,15 +91,37 @@
         </div>
 
         <div class='control-group'>
-            <label class='control-label' for='description'>{{t "modals.new.fields.description"}}</label>
+            <label class='control-label' for='clientDescription'>{{t "modals.new.fields.clientDescription"}}</label>
             <div class='controls'>
-                <textarea id='description' class='description input-xxlarge'></textarea>
+                <textarea id='clientDescription' class='clientDescription input-xxlarge'></textarea>
                 <a href="#" class="desc-action copyDescription">{{t "modals.new.copyDescription"}}</a>
                 {{#if templateDefined}}
                 | <a href="#" class="desc-action copyTemplate">{{t "modals.new.copyTemplate"}}</a>
                 {{/if}}
             </div>
         </div>
+
+        <div class='control-group'>
+            <label class='control-label' for='description'>{{t "modals.new.fields.description"}}</label>
+            <div class='controls'>
+                <textarea id='description' class='description input-xxlarge'></textarea>
+            </div>
+        </div>
+
+        <div class='control-group'>
+            <label class='control-label' for='repoSteps'>{{t "modals.new.fields.repoSteps"}}</label>
+            <div class='controls'>
+                <textarea id='repoSteps' class='repoSteps input-xxlarge'></textarea>
+            </div>
+        </div>
+
+        <div class='control-group'>
+            <label class='control-label' for='errorCodes'>{{t "modals.new.fields.errorCodes"}}</label>
+            <div class='controls'>
+                <input type='text' id='errorCodes' class='errorCodes' input-xxlarge'>
+            </div>
+        </div>
+
         {{#if attachments.length}}
         <div class='control-group'>
             <label class='control-label'>{{t "modals.new.fields.attachments"}}</label>

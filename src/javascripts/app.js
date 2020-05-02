@@ -101,7 +101,7 @@ const App = (function() {
         }),
         VSO_ZENDESK_LINK_TO_TICKET_PREFIX = "ZendeskLinkTo_Ticket_",
         VSO_ZENDESK_LINK_TO_TICKET_ATTACHMENT_PREFIX = "ZendeskLinkTo_Attachment_Ticket_",
-        VSO_WI_TYPES_WHITE_LISTS = ["Bug", "Product Backlog Item", "User Story", "Requirement", "Issue"],
+        VSO_WI_TYPES_WHITE_LISTS = ["Support Ticket"],
         VSO_PROJECTS_PAGE_SIZE = 100; //#endregion
 
     return {
@@ -1034,9 +1034,10 @@ const App = (function() {
             );
         },
         restrictToAllowedWorkItems: function(wits) {
-            return _.filter(wits, function(wit) {
-                return _.contains(VSO_WI_TYPES_WHITE_LISTS, wit.name);
-            });
+            return wits;
+            // return _.filter(wits, function(wit) {
+            //     return _.contains(VSO_WI_TYPES_WHITE_LISTS, wit.name);
+            // });
         },
         isHtmlContentField: function(fieldName) {
             var field = this.getFieldByFieldRefName(fieldName);
